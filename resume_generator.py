@@ -40,6 +40,25 @@ def def_start():
         current_label = None
         name_label_detected = False
 
+        unique_labels = set(label for text, label in recognized_entities)
+        num_labels = len(unique_labels)
+
+        # Select a template based on the number of labels identified
+        if num_labels >= 3:
+            selected_template = "template_2.docx"  # Replace with your template file name or path
+        elif num_labels == 3:
+            selected_template = "Template_1.docx"  # Replace with your template file name or path
+        else:
+            selected_template = "Template_2.docx"  # Replace with your template file name or path
+
+        # Load the selected template
+        resume_doc = Document(selected_template)
+
+        # ... (existing code to process recognized_entities remains unchanged)
+
+        # Save the document
+        resume_doc.save("selected_resume.docx")
+
         for text, label in recognized_entities:
             print(label)
             if label == "Name":
@@ -62,6 +81,7 @@ def def_start():
             else:
                 # If the label is the same as the current one, add content under the same heading
                 resume_doc.add_paragraph(text)
+
 
         # Add a custom style for the 'Name' label (bigger font size and centered)
 
